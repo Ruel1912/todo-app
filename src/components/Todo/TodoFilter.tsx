@@ -17,8 +17,8 @@ const TodoFilter: FC<TodoFilterProps> = ({ filterChange, clearTodo, selectedTodo
       <div className='flex gap-2'>
         {TODO_FILTERS.map((filter) => (<button
           key={filter}
-          className={`btn text-gray-400 font-light bg-white shadow-none border-white rounded-none min-h-8 max-h-8 border hover:bg-white hover:border-gray-900
-          ${filter === selectedTodoFilter ? 'border-gray-900 text-gray-900' : ''}`}
+          className={`btn font-light bg-white shadow-none rounded-none min-h-8 max-h-8 border hover:bg-white hover:border-gray-900
+          ${filter === selectedTodoFilter ? 'border-gray-900 text-gray-900' : 'border-white text-gray-400'}`}
           onClick={() => filterChange(filter)}>{filter}</button>))}
       </div>
       <button className='text-gray-400  hover:text-gray-900' onClick={clearTodo}>Clear completed</button>
