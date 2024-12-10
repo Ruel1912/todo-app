@@ -1,1 +1,0 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/setuptests.ts","./src/vite-env.d.ts","./src/components/todo/todoapp.tsx","./src/components/todo/todofilter.tsx","./src/components/todo/todoinput.tsx","./src/components/todo/todolist.tsx","./src/constants/index.ts","./src/tests/todoinput.test.tsx","./src/types/index.ts"],"version":"5.6.3"}
