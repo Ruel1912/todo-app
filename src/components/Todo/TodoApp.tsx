@@ -3,16 +3,21 @@ import { ITodo } from '../../types';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
 import TodoFilter from './TodoFilter';
-import { TODO_FILTERS } from '../../constants';
+import { TODO_FILTERS, TODO_FILTERS_LOCALSTORAGE_KEY, TODO_ITEMS_LOCALSTORAGE_KEY } from '../../constants';
 
 const TodoApp: React.FC = () => {
 
-  const storageTodo = localStorage.getItem('todo-app') ? JSON.parse(localStorage.getItem('todo-app')) : []
+  const storageTodo: ITodo[] = localStorage.getItem(TODO_ITEMS_LOCALSTORAGE_KEY)
+    ? JSON.parse(localStorage.getItem(TODO_ITEMS_LOCALSTORAGE_KEY) as string)
+    : []
+
+  const storageFilter = localStorage.getItem(TODO_FILTERS_LOCALSTORAGE_KEY) || TODO_FILTERS[0]
+
   const [todos, setTodos] = useState<ITodo[]>(storageTodo);
-  const [selectedTodoFilter, setSelectedTodoFilter] = useState(TODO_FILTERS[0]);
+  const [selectedTodoFilter, setSelectedTodoFilter] = useState(storageFilter);
 
   const updateTodos = (newTodos: ITodo[]) => {
-    localStorage.setItem('todo-app', JSON.stringify(newTodos))
+    localStorage.setItem(TODO_ITEMS_LOCALSTORAGE_KEY, JSON.stringify(newTodos))
     setTodos(newTodos);
   }
 
@@ -27,12 +32,12 @@ const TodoApp: React.FC = () => {
 
   const toggleTodo = (id: number) => {
     const editedTodos = todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
-    updateTodos(editTodos);
+    updateTodos(editedTodos);
   };
 
   const deleteTodo = (id: number) => {
     const deletedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(deletedTodos);
+    updateTodos(deletedTodos);
   };
 
   const clearTodo = () => {
@@ -51,6 +56,7 @@ const TodoApp: React.FC = () => {
   };
 
   const handleTodoFilterChange = (filter: string) => {
+    localStorage.setItem(TODO_FILTERS_LOCALSTORAGE_KEY, filter)
     setSelectedTodoFilter(filter);
   };
 
