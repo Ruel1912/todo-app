@@ -7,8 +7,14 @@ import { TODO_FILTERS } from '../../constants';
 
 const TodoApp: React.FC = () => {
 
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const storageTodo = localStorage.getItem('todo-app') ? JSON.parse(localStorage.getItem('todo-app')) : []
+  const [todos, setTodos] = useState<ITodo[]>(storageTodo);
   const [selectedTodoFilter, setSelectedTodoFilter] = useState(TODO_FILTERS[0]);
+
+  const updateTodos = (newTodos: ITodo[]) => {
+    localStorage.setItem('todo-app', JSON.stringify(newTodos))
+    setTodos(newTodos);
+  }
 
   const addTodo = (text: string) => {
     const newTodo: ITodo = {
@@ -16,23 +22,21 @@ const TodoApp: React.FC = () => {
       text,
       completed: false,
     };
-    setTodos([newTodo, ...todos]);
+    updateTodos([newTodo, ...todos]);
   };
 
   const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    const editedTodos = todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
+    updateTodos(editTodos);
   };
 
   const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    const deletedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(deletedTodos);
   };
 
   const clearTodo = () => {
-    setTodos([]);
+    updateTodos([]);
   }
 
   const filterTodos = () => {
